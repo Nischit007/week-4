@@ -2,9 +2,6 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-ARG REACT_APP_API_URL="http://backend:8765/api"
-ENV REACT_APP_API_URL=$REACT_APP_API_URL
-
 COPY package*.json ./
 RUN npm install
 
@@ -12,10 +9,15 @@ COPY . .
 
 RUN npm run build
 
-FROM nginx:stable-alpine
 
-COPY --from=builder /app/build /usr/share/nginx/html
+FROM node:22-alpine AS runner
 
-EXPOSE 7896
+WORKDIR /app
 
-CMD ["nginx", "-g", "daemon off;"]
+RUN npm install -g serve
+
+COPY --from=builder /app/build ./build
+
+EXPOSE 3000
+
+CMD ["serve", "-s", "build", "-l", "3000"]
