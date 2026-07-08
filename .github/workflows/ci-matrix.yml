@@ -10,7 +10,7 @@ jobs:
   frontend:
     strategy:
         matrix:
-            os: [ubuntu-latest,window-latest] 
+            os: [ubuntu-latest,windows-latest] 
 
     runs-on: ${{matrix.os}}
 
