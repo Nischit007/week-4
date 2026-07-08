@@ -1,0 +1,34 @@
+name: Build Docker Images
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  frontend:
+    strategy:
+        matrix:
+            os: [ubuntu-latest,window-latest] 
+
+    runs-on: ${{matrix.os}}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build frontend image
+        run: docker build -t react-app-frontend ./frontend
+
+  backend:
+    strategy:
+        matrix:
+            os: [ubuntu-latest,window-latest] 
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: docker build -t py-app-backend ./backend

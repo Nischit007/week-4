@@ -42,6 +42,8 @@ function App() {
     const fetchStats = async () => {
       try {
         const apiUrl = process.env.REACT_APP_API_URL || "";
+        console.log(apiUrl);
+        
         const res = await fetch(`${apiUrl}/api/stats`);
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
